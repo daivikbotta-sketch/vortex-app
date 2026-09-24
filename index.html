@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VECTA // VORTEX PLATFORM</title>
+    <style>
+        :root {
+            --bg-base: #050508;
+            --card-glass: #111216;
+            --box-inner: #161820;
+            --purple-accent: #9d4edd;
+            --purple-glow: rgba(157, 78, 221, 0.15);
+            --text-primary: #ffffff;
+            --text-secondary: #7b8896;
+            --border-ui: #21242d;
+            --success-color: #2ecc71;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            margin: 0;
+            padding: 24px 12px;
+            display: flex;
+            justify-content: center;
+            letter-spacing: -0.01em;
+        }
+
+        .app-envelope {
+            width: 100%;
+            max-width: 450px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* Branding & Global Time Block */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 4px;
+        }
+
+        .brand-meta h1 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-meta span {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--purple-accent);
+            font-weight: 700;
+        }
+
+        .sydney-clock-pod {
+            text-align: right;
+            background: var(--card-glass);
+            border: 1px solid var(--border-ui);
+            padding: 8px 14px;
+            border-radius: 14px;
+        }
+
+        #sydney-time {
+            font-size: 1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        #sydney-date {
+            font-size: 0.65rem;
+            color: var(--purple-accent);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 2px;
+        }
+
+        /* Tab Menu Block */
+        .navigation-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: var(--card-glass);
+            border: 1px solid var(--border-ui);
+            padding: 6px;
+            border-radius: 14px;
+        }
+
+        .nav-tab-item {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            padding: 12px 4px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .nav-tab-item.active-view {
+            background: var(--box-inner);
+            color: var(--text-primary);
+            border: 1px solid var(--border-ui);
+            box-shadow: inset 0 0 8px var(--purple-glow);
+        }
+
+        /* View State Engine */
+        .viewport-panel {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .viewport-panel.active-panel {
+            display: flex;
+        }
+
+        /* Bento Presentation Modules */
+        .bento-module {
+            background: var(--card-glass);
+            border: 1px solid var(--border-ui);
+            border-radius: 18px;
+            padding: 20px;
+        }
+
+        h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            margin-top: 0;
+            margin-bottom: 14px;
+        }
+
+        /* Status Anchor Trackers */
+        .live-status-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .status-node {
+            background: var(--box-inner);
+            border: 1px solid var(--border-ui);
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .status-node.highlighted {
+            border-color: var(--purple-accent);
+            box-shadow: 0 4px 15px var(--purple-glow);
+        }
+
+        .node-tag {
+            font-size: 0.65rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--purple-accent);
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .node-main {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+
+        /* Structured Form Control elements */
+        .interactive-form {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        input, select, textarea {
+            background: var(--box-inner);
+            border: 1px solid var(--border-ui);
+            color: var(--text-primary);
+            padding: 12px 14px;
+            font-size: 0.9rem;
+            border-radius: 10px;
+            outline: none;
+            font-family: inherit;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--purple-accent);
+        }
+
+        .commit-btn {
+            background: var(--purple-accent);
+            color: var(--text-primary);
+            border: none;
+            padding: 12px;
+            font-weight: 700;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Structured List Containers */
+        .data-feed {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .feed-row {
+            background: var(--box-inner);
+            border: 1px solid var(--border-ui);
+            padding: 12px 14px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .feed-row.checked-off {
+            opacity: 0.35;
+        }
+
+        .feed-row.checked-off .editable-label {
+            text-decoration: line-through;
+        }
+
+        .feed-left {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .editable-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            padding: 2px 0;
+            width: 90%;
+        }
+
+        .editable-label:focus {
+            border-bottom: 1px dashed var(--purple-accent);
+            outline: none;
+        }
+
+        .row-subtext {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .action-icon {
+            background: transparent;
+            color: var(--text-secondary);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+        }
+
+        .action-icon:hover {
+            color: #ff5555;
+        }
+
+        /* Import Code Block Area */
+        .import-box {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            line-height: 1.4;
+        }
+
+        .day-indicator-pill {
+            font-size: 0.7rem;
+            background: var(--box-inner);
+            border: 1px solid var(--border-ui);
+            color: var(--text-primary);
+            padding: 4px 10px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-envelope">
+    <!-- SYDNEY FIXED DATA CLOCK ACCENT -->
+    <header>
+        <div class="brand-meta">
+            <span>Vecta Systems</span>
+            <h1>vortex</h1>
+        </div>
+        <div class="sydney-clock-pod">
+            <div id="sydney-time">00:00:00</div>
+            <div id="sydney-date">Sydney, NSW</div>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TAB LINK LAYOUT -->
+    <div class="navigation-grid">
+        <button class="nav-tab-item active-view" onclick="toggleViewport('timetable')">Timetable</button>
+        <button class="nav-tab-item" onclick="toggleViewport('routines')">Routines</button>
+        <button class="nav-tab-item" onclick="toggleViewport('media')">Media Hub</button>
+    </div>
+
+    <!-- MAIN INTERACTIVE SCREENS FRAME -->
+
+    <!-- MODULE 1: TIMETABLE & DATA IMPORT -->
+    <div id="panel-timetable" class="viewport-panel active-panel">
+        <div class="live-status-row">
+            <div class="status-node highlighted">
+                <span class="node-tag">📍 Now Playing</span>
+                <div class="node-main" id="live-now-block">Free Block</div>
+                <span class="row-subtext" id="live-now-span">--</span>
+            </div>
+            <div class="status-node">
+                <span class="node-tag">⏭️ Up Next</span>
+                <div class="node-main" id="live-next-block">End of Day</div>
+                <span class="row-subtext" id="live-next-span">--</span>
+            </div>
+        </div>
+
+        <!-- FILE / TEXT STRUCTURAL IMPORTER -->
+        <div class="bento-module">
+            <h2>Data Importer</h2>
+            <div class="interactive-form">
+                <textarea id="import-json-string" rows="3" placeholder='Paste timetable text data here... (e.g. [{"title":"Maths","time":"9-10am"}])'></textarea>
+                <button class="commit-btn" onclick="executeDataImport()">Load & Parse File Data</button>
+            </div>
+            <div class="import-box">Tip: Type or paste a standard schedule list format to merge data blocks into your schedule.</div>
+        </div>
+
+        <div class="bento-module">
+
+    
